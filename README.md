@@ -32,29 +32,38 @@ The project maintains high test coverage across all modules:
 ### Installation Steps
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/pankajtamhane555/fastapi-user-management.git
 cd fastapi-user-management
 ```
-2. Set up environment variables:
+
+1. Set up environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env file with your configurations
 ```
-3. Build and start the containers:
+
+1. Build and start the containers:
+
 ```bash
-docker-compose up --build
+docker-compose build &&
+docker-compose up -d
 ```
 
 ### Running Tests
+
 ```bash
 # Run all tests
-docker exec -it pocprojects-web-1 pytest
+docker exec -it fastapi-user-management-web pytest
 
 # Run tests with coverage
-docker exec -it pocprojects-web-1 bash -c "COVERAGE_FILE=/tmp/.coverage pytest --cov=app --cov-report=term-missing"
+docker exec -it fastapi-user-management-web bash -c "COVERAGE_FILE=/tmp/.coverage pytest --cov=app --cov-report=term-missing"
 ```
+
 The coverage report will show:
+
 - Percentage of code covered by tests for each module
 - Lines that are missing test coverage
 - Overall project coverage statistics
@@ -62,6 +71,7 @@ The coverage report will show:
 ## API Documentation
 
 The API documentation is available at:
+
 - Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
 - ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
@@ -90,6 +100,7 @@ The API documentation is available at:
   - Requires admin role
 
 ## Project Structure
+
 ```plaintext
 fastapi-user-management/
 ├── app/
@@ -116,6 +127,7 @@ fastapi-user-management/
 ## Environment Variables
 
 Required variables in `.env`:
+
 ```bash
 # Project Settings
 PROJECT_NAME=User Management API
