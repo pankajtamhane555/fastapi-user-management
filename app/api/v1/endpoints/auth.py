@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Any
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi import Form
+from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app.api.v1.dependencies import get_current_user
@@ -11,16 +11,22 @@ from app.db.base import get_db
 from app.models.user import User
 from app.schemas.user import User as UserSchema, UserCreate, Token
 
+# Create router without dependencies (no auth required for these endpoints)
 router = APIRouter()
 
-@router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
+@router.post("/login", 
+    response_model=Token, 
+    status_code=status.HTTP_200_OK,
+    description="Login with email and password to get access token",
+    tags=["authentication"]
+)
 def login(
-    email: str = Form(...),
-    password: str = Form(...),
     db: Session = Depends(get_db),
+    email: str = Body(..., embed=True, description="The email of the user"),
+    password: str = Body(..., embed=True, description="The password of the user")
 ) -> Any:
     """
-    Login with email and password to get an access token.
+    OAuth2 compatible token login, get an access token for future requests.
     """
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.hashed_password):
@@ -41,7 +47,12 @@ def login(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/register", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
+@router.post("/register", 
+    response_model=UserSchema, 
+    status_code=status.HTTP_201_CREATED,
+    description="Register a new user",
+    tags=["authentication"]
+)
 def create_user(
     *,
     db: Session = Depends(get_db),
@@ -58,7 +69,6 @@ def create_user(
         )
     
     if user_in.admin_token and user_in.admin_token != "string" and user_in.admin_token != settings.ADMIN_REGISTRATION_TOKEN:
-    
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Invalid admin registration token",

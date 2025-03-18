@@ -18,6 +18,7 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     docs_url="/docs",
     redoc_url="/redoc",
+    description="FastAPI User Management Service with JWT Authentication and RBAC"
 )
 
 # Set all CORS enabled origins
@@ -51,16 +52,14 @@ def custom_openapi():
         }
     }
 
-    # Add global security requirement
-    openapi_schema["security"] = [{"bearerAuth": []}]
-
-    # Remove any existing security schemes
-    if "OAuth2PasswordBearer" in openapi_schema.get("components", {}).get("securitySchemes", {}):
-        del openapi_schema["components"]["securitySchemes"]["OAuth2PasswordBearer"]
-    
-    # Remove scopes section if it exists
-    if "securityDefinitions" in openapi_schema:
-        del openapi_schema["securityDefinitions"]
+    # Add security requirement only to protected endpoints
+    for path in openapi_schema["paths"]:
+        # Skip authentication endpoints
+        if path.startswith("/api/v1/auth/"):
+            continue
+        # Add security requirement to all other endpoints
+        for method in openapi_schema["paths"][path]:
+            openapi_schema["paths"][path][method]["security"] = [{"bearerAuth": []}]
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema
