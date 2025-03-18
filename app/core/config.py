@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import PostgresDsn, field_validator
 from pydantic_settings import BaseSettings
 
@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     
     # Admin Settings
     ADMIN_REGISTRATION_TOKEN: str
+    
+    # CORS Settings
+    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:8000", "http://localhost:3000"]
     
     # Database
     POSTGRES_SERVER: str = "localhost"
@@ -34,6 +37,12 @@ class Settings(BaseSettings):
             host=values.get("POSTGRES_SERVER"),
             path=f"{values.get('POSTGRES_DB') or ''}",
         )
+
+    @field_validator("BACKEND_CORS_ORIGINS", mode="before")
+    def assemble_cors_origins(cls, v: Optional[str | List[str]]) -> List[str]:
+        if isinstance(v, str):
+            return [i.strip() for i in v.split(",")]
+        return v or []
 
     class Config:
         env_file = ".env"

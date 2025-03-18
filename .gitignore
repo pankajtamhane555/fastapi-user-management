@@ -19,11 +19,13 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # Virtual Environment
 venv/
 env/
 ENV/
+.venv
 .env
 
 # IDE
@@ -32,24 +34,35 @@ ENV/
 *.swp
 *.swo
 .DS_Store
+*.sublime-project
+*.sublime-workspace
 
-# Testing
+# Testing and Coverage
 .coverage
+coverage.xml
 htmlcov/
 .pytest_cache/
 .tox/
+nosetests.xml
+coverage/
+.hypothesis/
 
 # Database
 *.sqlite3
 *.db
+*.sqlite
 
 # Logs
 *.log
 logs/
+log/
 
 # Local development
 .env.local
 .env.*.local
+.env.development
+.env.test
+.env.production
 !.env.example
 
 # Distribution
@@ -72,3 +85,19 @@ dmypy.json
 # Docker
 .docker/
 docker-compose.override.yml
+
+# System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Local data
+data/
+uploads/
+media/
