@@ -8,7 +8,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     ENVIRONMENT=production \
-    TESTING=0
+    TESTING=0 \
+    PYTHONPATH=/app
 
 # Install system dependencies
 RUN apt-get update \

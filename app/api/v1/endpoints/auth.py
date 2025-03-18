@@ -22,14 +22,13 @@ router = APIRouter()
 )
 def login(
     db: Session = Depends(get_db),
-    email: str = Body(..., embed=True, description="The email of the user"),
-    password: str = Body(..., embed=True, description="The password of the user")
+    form_data: OAuth2PasswordRequestForm = Depends()
 ) -> Any:
     """
     OAuth2 compatible token login, get an access token for future requests.
     """
-    user = db.query(User).filter(User.email == email).first()
-    if not user or not verify_password(password, user.hashed_password):
+    user = db.query(User).filter(User.email == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
