@@ -108,10 +108,12 @@ fastapi-user-management/
 │   │   └── v1/
 │   │       ├── endpoints/
 │   │       │   ├── auth.py      # Authentication endpoints
+|   |       |   ├── rag.py       # RAG endpoints
 │   │       │   └── users.py     # User management endpoints
 │   │       └── dependencies.py   # API dependencies
 │   ├── core/
 │   │   ├── config.py            # Configuration settings
+│   │   ├── rag.py               # RAG utilities
 │   │   └── security.py          # Security utilities
 │   ├── db/
 │   │   └── base.py              # Database setup
