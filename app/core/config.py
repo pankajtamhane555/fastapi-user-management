@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     DATABASE_URL: Optional[PostgresDsn] = None
     TEST_DATABASE_URL: Optional[PostgresDsn] = None
 
+    #rag
+    GROQ_API_KEY: str
+
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
     def assemble_db_connection(cls, v: Optional[str], info: Dict[str, Any]) -> Any:

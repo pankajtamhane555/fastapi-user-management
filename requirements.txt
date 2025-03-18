@@ -27,9 +27,9 @@ pluggy==1.5.0
 psycopg2-binary>=2.9.9
 pyasn1==0.6.1
 pycparser==2.22
-pydantic==2.5.2
-pydantic-settings==2.1.0
-pydantic_core==2.14.5
+pydantic==2.10.6
+pydantic-settings==2.8.1
+pydantic_core==2.27.2
 pytest>=8.0.2
 pytest-cov>=4.1.0
 python-dotenv>=1.0.1
@@ -43,3 +43,8 @@ starlette>=0.36.3
 tomli==2.2.1
 typing_extensions==4.12.2
 uvicorn>=0.27.1
+langchain_groq>=0.2.5
+langchain_community>=0.3.19
+sentence-transformers>=3.4.1
+chromadb>=0.6.3
+pdfplumber>=0.11.5
